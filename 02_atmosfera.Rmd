@@ -22,14 +22,21 @@ atmosfera <- datos::atmosfera
 ¿Es una relación lineal más o menos limpia o hay otras cosas “raras”?
 
 ```{r}
-
+ggplot(atmosfera, aes(presion, temperatura)) +
+  geom_point()
+# No parece haber una relación 100% lineal y clara entre ambas variables.
 ```
 
 
 2. Calculá la temperatura media de cada mes y visualizalo en un gráfico de líneas.(Es decir, el ciclo anual promedio de temperatura). ¿Cómo describirías el ciclo anual en pocas palabras?
 
 ```{r}
-
+atmosfera %>% 
+  group_by(mes) %>% 
+  summarize(temperatura_media_mensual = mean(temperatura)) %>% 
+  ggplot(aes(mes, temperatura_media_mensual)) +
+    geom_line()
+# La temperatura a mediados del año alcanza su máximo y luego disminuye a su minimo.
 ```
 
 
@@ -40,7 +47,12 @@ Acordate del tema de los grupos y las líneas.)
 ¿Cómo cambia tu descripción del ciclo anual ahora?
 
 ```{r}
-
+atmosfera %>% 
+  group_by(hemisferio = sign(latitud),mes) %>% 
+  summarize(temperatura_media_mensual = mean(temperatura)) %>% 
+  ggplot(aes(mes, temperatura_media_mensual, color = factor(hemisferio))) +
+    geom_line()
+# En el hemisferio norte, el minimo del año se encuentra al principio del mismo y la temperatura va creciente hasta llegar a su pico a mediados del año. Por otro lado, en el hemisferio sur el minimo del año ocurre a mediados del añO mientras que el máximo ocurre en los primeros meses del mismo.
 ```
 
 
