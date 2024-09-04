@@ -49,6 +49,7 @@ nombres %>%
 nombres %>% 
   filter(nombre == "Kerry") %>% 
   group_by(anio, sexo) %>% 
+  
   summarise(cantidad = sum(n)) %>% 
   ggplot(aes(anio, cantidad, color = sexo)) +
     geom_line() +
@@ -66,6 +67,7 @@ nombres %>%
   summarise(prop_max = max(prop)) %>% 
   ggplot(aes(anio, prop_max, color = sexo)) +
     geom_line()
+# kjhkjhkjhkjhkjhkjhjjhgjhgjhg
 ```
 
 
