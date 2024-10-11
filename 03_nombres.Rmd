@@ -1,7 +1,7 @@
 ---
 title: "Ejercicios"
 author: "nombre"
-date: "2024-08-01"
+date: "2022-08-01"
 output: html_document
 ---
 
@@ -20,11 +20,11 @@ nombres <- datos::nombres
 1. Calculá cuantos bebés de cada sexo fueron llamados "Mary" o "Kerry". 
 
 ```{r}
-asd <-nombres %>% 
-        filter(nombre == "Mary" | nombre == "Kerry") %>% 
-        group_by(sexo, nombre) %>% 
-        summarise(cantidad = sum(n))
-
+nombres |> 
+  filter(nombre %in% c("Mary", "Kerry")) |> 
+  group_by(sexo, nombre) |> 
+  summarise(cantidad = sum(n)) |> 
+  arrange(nombre)
 ```
 
 
@@ -32,42 +32,34 @@ asd <-nombres %>%
 
 
 ```{r}
-nombres %>% 
-  filter(nombre == "Mary") %>% 
-  group_by(anio, sexo) %>% 
-  summarise(cantidad = sum(n)) %>% 
-  ggplot(aes(anio, cantidad, color = sexo)) +
-    geom_line() +
-    labs(title = "Cantidad de bebés llamados 'Mary' por año y sexo",
-         x = "Año",
-         y = "Cantidad de nacidos")
+nombres |> 
+  filter(nombre == "Mary") |> 
+  group_by(sexo, anio) |> 
+  summarise(cantidad = sum(n)) |> 
+  ggplot(aes(anio, cantidad)) +
+  geom_line(aes(color = sexo))
 ```
 
 3. Repetí el gráfico anterior para el nombre "Kerry".
 
 ```{r}
-nombres %>% 
-  filter(nombre == "Kerry") %>% 
-  group_by(anio, sexo) %>% 
-  
-  summarise(cantidad = sum(n)) %>% 
-  ggplot(aes(anio, cantidad, color = sexo)) +
-    geom_line() +
-    labs(title = "Cantidad de bebés llamados 'Kerry' por año y sexo",
-         x = "Año",
-         y = "Cantidad de nacidos")
+nombres |> 
+  filter(nombre == "Kerry") |> 
+  group_by(sexo, anio) |> 
+  summarise(cantidad = sum(n)) |> 
+  ggplot(aes(anio, cantidad)) +
+  geom_line(aes(color = sexo))
 ```
 
 
 4. ¿Cuál fue la proporción máxima para cada sexo en cada año? Hacé un gráfico mostrando la evolución de eta variable. (podés calcular el máximo con `max(prop)`)
 
 ```{r}
-nombres %>% 
-  group_by(sexo, anio) %>% 
-  summarise(prop_max = max(prop)) %>% 
-  ggplot(aes(anio, prop_max, color = sexo)) +
-    geom_line()
-# kjhkjhkjhkjhkjhkjhjjhgjhgjhg
+nombres |> 
+  group_by(anio, sexo) |> 
+  summarise(max_prop = max(prop)) |>
+  ggplot(aes(anio, max_prop)) +
+  geom_line(aes(color = sexo))
 ```
 
 
